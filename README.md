@@ -16,17 +16,22 @@ This is a simple desktop application built with Python and Tkinter for tracking 
 ## Usage
 1. **Launch the App**
 2. **Add a Transaction:**
-- Select the transaction type (Income or Expense).
-- Enter the date in YYYY-MM-DD format (defaults to today).
-- Input the amount and description.
-- Click "Add Transaction" to save it.
+    - Select the transaction type (Income or Expense).
+    - Enter the date in YYYY-MM-DD format (defaults to today).
+    - Input the amount and description.
+    - Click "Add Transaction" to save it.
 3. **View Transactions:**
-- Transactions are displayed in tabs based on their dates.
-- Switch between tabs to see entries for different days.
+    - Transactions are displayed in tabs based on their dates.
+    - Switch between tabs to see entries for different days.
 4. **Edit a Transaction:**
-- Double-click on a transaction in the listbox of the appropriate tab.
-- A dialog will open with the details; make your changes and click "Save".
+    - Double-click on a transaction in the listbox of the appropriate tab.
+    - A dialog will open with the details; make your changes and click "Save".
 5. **Salary Reminder:**
-- If today is the 15th or 30th, a prompt will appear to add salary income.
+    - If today is the 15th or 30th, a prompt will appear to add salary income.
 6. **Low Balance Alert:**
-- If your balance drops below $500, a warning message will pop up.
+    - If your balance drops below $500, a warning message will pop up.
+
+## Status
+ - Ongoing
+ - To be released not later than end of September.
+   
