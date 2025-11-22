@@ -33,5 +33,5 @@ This is a simple desktop application built with Python and Tkinter for tracking 
 
 ## Status
  - Ongoing
- - To be released not later than end of September.
+ - To be released not later than end of November.
    
