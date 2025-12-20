@@ -1,4 +1,12 @@
-# DiBiLi - Divide it. Budget it. Live easy (Expense Tracker) 📈📊
+
+<h1 align=center>
+  DiBiLi - Divide it. Budget it. Live easy (Expense Tracker) 📈📊
+</h1>
+<h4 align=center>
+    <img src="https://github.com/nickichann01/Simple-Expense-Tracker/blob/main/Logo.png" width="180" height="160">
+    <br>
+    <img alt="Version" src="https://img.shields.io/static/v1?label=Version&message=1.0.0&logoColor=white&color=yellow&style=for-the-badge">
+    <br>
 
 ## Overview
 This is a simple desktop application built with Python and Tkinter for tracking daily expenses. It allows users to add, edit, and organize transactions by date, with features like salary reminders and low balance alerts. The app is designed for personal finance management and includes a very simple UI for better usability.
