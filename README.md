@@ -42,4 +42,7 @@ This is a simple desktop application built with Python and Tkinter for tracking 
 ## Status
  - Ongoing
  - To be released.
+
+## Disclaimer
+  This is just for *fun* and continous study of *Python*.
    
