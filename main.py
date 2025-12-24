@@ -181,7 +181,7 @@ class ExpenseTracker:
     def edit_transaction(self, transaction):
         edit_window = tk.Toplevel(self.root)
         edit_window.title("Edit Transaction")
-        edit_window.geometry("400x300")
+        edit_window.geometry("400x380")
         
         ttk.Label(edit_window, text="Type:").pack(pady=5)
         type_var = tk.StringVar(value=transaction['type'])
@@ -228,7 +228,17 @@ class ExpenseTracker:
             except ValueError as e:
                 messagebox.showerror("Error", f"Invalid input: {e}")
         
-        ttk.Button(edit_window, text="Save", command=save_edited_transaction, width=15).pack(pady=10)
+        def delete_single_transaction():
+            response = messagebox.askyesno("Confirm Delete", "Are you sure you want to delete this transaction?")
+            if response:
+                self.transactions.remove(transaction)
+                self.save_data()
+                self.update_display()
+                edit_window.destroy()
+                messagebox.showinfo("Success", "Transaction deleted!")
+        
+        ttk.Button(edit_window, text="Save", command=save_edited_transaction, width=15).pack(pady=5)
+        ttk.Button(edit_window, text="Delete", command=delete_single_transaction, width=15).pack(pady=5)
         ttk.Button(edit_window, text="Cancel", command=edit_window.destroy, width=15).pack(pady=5)
     
     def delete_all_transactions(self):
