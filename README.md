@@ -39,6 +39,11 @@ This is a simple desktop application built with Python and Tkinter for tracking 
 6. **Low Balance Alert:**
     - If your balance drops below $500, a warning message will pop up.
 
+## Sample Output
+  <img src="https://github.com/nickichann01/Simple-Expense-Tracker/blob/main/Sample/1.png" width="280" height="260"> <img src="https://github.com/nickichann01/Simple-Expense-Tracker/blob/main/Sample/2.png" width="280" height="260">
+  <img src="https://github.com/nickichann01/Simple-Expense-Tracker/blob/main/Sample/3.png" width="280" height="260">
+  <img src="https://github.com/nickichann01/Simple-Expense-Tracker/blob/main/Sample/4.png" width="280" height="260">
+
 ## Status
  - Ongoing
  - To be released.
