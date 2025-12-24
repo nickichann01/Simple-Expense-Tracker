@@ -45,9 +45,10 @@ This is a simple desktop application built with Python and Tkinter for tracking 
   <img src="https://github.com/nickichann01/Simple-Expense-Tracker/blob/main/Sample/4.png" width="380" height="360">
 
 ## Status
- - Ongoing
- - To be released.
+ - Developing
+ - First verion (1.0.0) released.
 
 ## Disclaimer
   This is just for *fun* and continous study of *Python*.
+  Open for constructive critism to make this project better.
    
