@@ -49,6 +49,9 @@ This is a simple desktop application built with Python and Tkinter for tracking 
  - First verion (1.0.0) released.
 
 ## Disclaimer
-  This is just for *fun* and continous study of *Python*.
-  Open for constructive critism to make this project better.
+  This is just for *fun* and continous study of *Python*. <br>
+  <br>Open for constructive critism to make this project better. <br>
+  <br> Project started *August 2025* first version released *December 24, 2025* <br>
+  <br> Still many to improve. Maybe one step at a time.
+  
    
