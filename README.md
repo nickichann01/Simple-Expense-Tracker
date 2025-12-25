@@ -48,6 +48,10 @@ This is a simple desktop application built with Python and Tkinter for tracking 
  - Developing
  - First verion (1.0.0) released.
 
+## Current Version
+<img alt="Version" src="https://img.shields.io/static/v1?label=Version&message=1.0.0&logoColor=white&color=blue&style=for-the-badge">
+
+
 ## Disclaimer
   This is just for *fun* and continous study of *Python*. <br>
   <br>Open for constructive critism to make this project better. <br>
