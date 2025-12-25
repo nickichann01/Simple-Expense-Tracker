@@ -115,6 +115,12 @@ class ExpenseTracker:
             messagebox.showerror("Error", "Invalid date format. Please use YYYY-MM-DD.")
             return
         
+        # Check if the date is advance
+        today = datetime.date.today()
+        if transaction_date > today:
+            messagebox.showerror("Error", "Opps too advance! Please select today's date or earlier.")
+            return
+        
         try:
             amount = float(amount_str)
             if amount <= 0:
@@ -214,6 +220,13 @@ class ExpenseTracker:
                 new_amount = float(new_amount_str)
                 if new_amount <= 0:
                     raise ValueError("Amount must be positive.")
+                
+                # Check if the date is in the future
+                new_date = datetime.date.fromisoformat(new_date_str)
+                today = datetime.date.today()
+                if new_date > today:
+                    messagebox.showerror("Error", "You cannot enter a date in the future. Please select today's date or earlier.")
+                    return
                 
                 # Update the transaction
                 transaction['type'] = new_type
