@@ -7,68 +7,93 @@ class ExpenseTracker:
     def __init__(self, root):
         self.root = root
         self.root.title("DiBiLi - Divide it. Budget it. Live easy")
-        self.root.geometry("800x700")
+        self.root.geometry("900x750")
         self.root.resizable(True, True)
         self.low_balance_threshold = 100.0  # Threshold for low balance warning
+        
+        # Modern UI Theme Setup
+        style = ttk.Style()
+        style.theme_use('clam')  # Use a modern theme
+        style.configure('TFrame', background='#f0f0f0')  # Light gray background
+        style.configure('TLabel', background='#f0f0f0', font=('Segoe UI', 10))
+        style.configure('TButton', font=('Segoe UI', 10, 'bold'), padding=6, relief='flat', background='#4CAF50', foreground='white')
+        style.map('TButton', background=[('active', '#45a049')])  # Hover effect
+        style.configure('TEntry', font=('Segoe UI', 10), padding=5)
+        style.configure('TRadiobutton', background='#f0f0f0', font=('Segoe UI', 10))
+        style.configure('TNotebook', background='#f0f0f0', tabmargins=[2, 5, 2, 0])
+        style.configure('TNotebook.Tab', font=('Segoe UI', 9, 'bold'), padding=[10, 5])
         
         # Load existing transactions from file
         self.transactions = self.load_data()
         
-        self.main_frame = ttk.Frame(root, padding="20")
+        self.main_frame = ttk.Frame(root, padding="20", style='TFrame')
         self.main_frame.pack(fill=tk.BOTH, expand=True)
         
-        self.header_label = ttk.Label(self.main_frame, text="Daily Expense Tracker", font=("Helvetica", 15, "bold"))
-        self.header_label.pack(pady=10)
+        # Header with modern styling
+        self.header_label = ttk.Label(self.main_frame, text="💰 DiBiLi - Daily Expense Tracker", font=("Segoe UI", 18, "bold"), foreground='#333')
+        self.header_label.pack(pady=(0, 20))
         
-        self.summary_frame = ttk.Frame(self.main_frame, padding="10", relief="sunken", borderwidth=2)
+        # Summary Frame with card-like design
+        self.summary_frame = ttk.Frame(self.main_frame, padding="15", relief="raised", borderwidth=2, style='TFrame')
         self.summary_frame.pack(pady=10, fill=tk.X)
+        self.summary_frame.configure(style='Card.TFrame')  # Custom style for card effect
         
-        self.label_income = ttk.Label(self.summary_frame, text="Total Income: 0")
-        self.label_income.pack(side=tk.LEFT, padx=90)
+        self.label_income = ttk.Label(self.summary_frame, text="Total Income: Php 0.00", font=("Segoe UI", 12, "bold"), foreground='#4CAF50')
+        self.label_income.pack(side=tk.LEFT, padx=35)
         
-        self.label_expenses = ttk.Label(self.summary_frame, text="Total Expenses: 0")
-        self.label_expenses.pack(side=tk.LEFT, padx=40)
+        self.label_expenses = ttk.Label(self.summary_frame, text="Total Expenses: Php 0.00", font=("Segoe UI", 12, "bold"), foreground='#f44336')
+        self.label_expenses.pack(side=tk.LEFT, padx=35)
         
-        self.label_balance = ttk.Label(self.summary_frame, text="Balance: 0")
-        self.label_balance.pack(side=tk.LEFT, padx=40)
+        self.label_balance = ttk.Label(self.summary_frame, text="Balance: Php 0.00", font=("Segoe UI", 12, "bold"), foreground='#2196F3')
+        self.label_balance.pack(side=tk.LEFT, padx=35)
         
-        self.form_frame = ttk.Frame(self.main_frame, padding="10", relief="sunken", borderwidth=2)
+        # Form Frame with modern layout
+        self.form_frame = ttk.Frame(self.main_frame, padding="15", relief="raised", borderwidth=2, style='TFrame')
         self.form_frame.pack(pady=10, fill=tk.X)
         
-        ttk.Label(self.form_frame, text="Transaction Type:").pack(pady=5)
+        # Configure grid weights for stretching
+        self.form_frame.columnconfigure(1, weight=1)
+        
+        # Transaction Type
+        ttk.Label(self.form_frame, text="Transaction Type:", font=("Segoe UI", 11, "bold")).grid(row=0, column=0, sticky=tk.W, pady=5)
+        radio_frame = ttk.Frame(self.form_frame, style='TFrame')
+        radio_frame.grid(row=0, column=1, sticky=tk.W, pady=5)
         self.type_var = tk.StringVar(value="expense")
-        ttk.Radiobutton(self.form_frame, text="Income", variable=self.type_var, value="income").pack(anchor=tk.W)
-        ttk.Radiobutton(self.form_frame, text="Expense", variable=self.type_var, value="expense").pack(anchor=tk.W)
+        ttk.Radiobutton(radio_frame, text="💼 Income", variable=self.type_var, value="income").pack(side=tk.LEFT, padx=(0, 10))
+        ttk.Radiobutton(radio_frame, text="🛒 Expense", variable=self.type_var, value="expense").pack(side=tk.LEFT)
         
-        ttk.Label(self.form_frame, text="Date (YYYY-MM-DD):").pack(pady=5)
-        self.date_entry = ttk.Entry(self.form_frame, width=60)
-        self.date_entry.insert(0, datetime.date.today().isoformat())  # Default to today
-        self.date_entry.pack(pady=5)
+        # Date
+        ttk.Label(self.form_frame, text="Date (YYYY-MM-DD):", font=("Segoe UI", 11, "bold")).grid(row=1, column=0, sticky=tk.W, pady=5)
+        self.date_entry = ttk.Entry(self.form_frame, width=50)
+        self.date_entry.insert(0, datetime.date.today().isoformat())
+        self.date_entry.grid(row=1, column=1, columnspan=2, sticky=tk.EW, pady=5)
         
-        ttk.Label(self.form_frame, text="Amount:").pack(pady=5)
-        self.amount_entry = tk.Entry(self.form_frame, width=60)  # Changed to tk.Entry for color support
+        # Amount
+        ttk.Label(self.form_frame, text="Amount (Php):", font=("Segoe UI", 11, "bold")).grid(row=2, column=0, sticky=tk.W, pady=5)
+        self.amount_entry = tk.Entry(self.form_frame, width=50, font=('Segoe UI', 11), bg='white', fg='gray')
         self.amount_entry.insert(0, "Enter amount...")
-        self.amount_entry.configure(foreground='gray')  # Set placeholder text to gray
-        self.amount_entry.pack(pady=5)
+        self.amount_entry.grid(row=2, column=1, columnspan=2, sticky=tk.EW, pady=5)
         self.amount_entry.bind("<FocusIn>", lambda event: self.clear_placeholder(self.amount_entry, "Enter amount..."))
         self.amount_entry.bind("<FocusOut>", lambda event: self.restore_placeholder(self.amount_entry, "Enter amount..."))
         
-        ttk.Label(self.form_frame, text="Item:").pack(pady=5)
-        self.desc_entry = tk.Entry(self.form_frame, width=60)  # Changed to tk.Entry for color support
-        self.desc_entry.insert(0, "Enter Item...")
-        self.desc_entry.configure(foreground='gray')  # Set placeholder text to gray
-        self.desc_entry.pack(pady=5)
-        self.desc_entry.bind("<FocusIn>", lambda event: self.clear_placeholder(self.desc_entry, "Enter Item..."))
-        self.desc_entry.bind("<FocusOut>", lambda event: self.restore_placeholder(self.desc_entry, "Enter Item..."))
+        # Item
+        ttk.Label(self.form_frame, text="Item/Description:", font=("Segoe UI", 11, "bold")).grid(row=3, column=0, sticky=tk.W, pady=5)
+        self.desc_entry = tk.Entry(self.form_frame, width=50, font=('Segoe UI', 11), bg='white', fg='gray')
+        self.desc_entry.insert(0, "Enter item...")
+        self.desc_entry.grid(row=3, column=1, columnspan=2, sticky=tk.EW, pady=5)
+        self.desc_entry.bind("<FocusIn>", lambda event: self.clear_placeholder(self.desc_entry, "Enter item..."))
+        self.desc_entry.bind("<FocusOut>", lambda event: self.restore_placeholder(self.desc_entry, "Enter item..."))
         
-        self.add_button = ttk.Button(self.form_frame, text="Add Transaction", command=self.add_transaction, width=20)
-        self.add_button.pack(pady=10)
+        # Buttons with modern styling, centered
+        button_frame = ttk.Frame(self.form_frame, style='TFrame')
+        button_frame.grid(row=4, column=0, columnspan=3, pady=15, sticky=tk.EW)
+        self.add_button = ttk.Button(button_frame, text="➕ Add Transaction", command=self.add_transaction, width=18)
+        self.add_button.pack(anchor=tk.CENTER)
+        self.delete_all_button = ttk.Button(button_frame, text="🗑️ Delete All", command=self.delete_all_transactions, width=18, style='Danger.TButton')
+        self.delete_all_button.pack(anchor=tk.CENTER, pady=(10, 0))  # Add some vertical space
         
-        # New button for deleting all transactions
-        self.delete_all_button = ttk.Button(self.form_frame, text="Delete All Transactions", command=self.delete_all_transactions, width=20)
-        self.delete_all_button.pack(pady=10)
-        
-        self.list_frame = ttk.Frame(self.main_frame, padding="10", relief="sunken", borderwidth=2)
+        # List Frame
+        self.list_frame = ttk.Frame(self.main_frame, padding="10", relief="raised", borderwidth=2, style='TFrame')
         self.list_frame.pack(pady=10, fill=tk.BOTH, expand=True)
         
         self.notebook = ttk.Notebook(self.list_frame)
@@ -76,7 +101,12 @@ class ExpenseTracker:
         
         self.check_salary()
         self.update_display()
-    
+        
+        # Custom styles for danger button
+        style.configure('Danger.TButton', background='#f44336', foreground='white')
+        style.map('Danger.TButton', background=[('active', '#d32f2f')])
+        style.configure('Card.TFrame', background='#ffffff', relief='raised', borderwidth=1)
+
     def clear_placeholder(self, entry, placeholder):
         if entry.get() == placeholder:
             entry.delete(0, tk.END)
@@ -106,7 +136,7 @@ class ExpenseTracker:
         
         if amount_str == "Enter amount...":
             amount_str = ""
-        if description == "Enter Item...":
+        if description == "Enter item...":
             description = ""
         
         try:
@@ -147,9 +177,9 @@ class ExpenseTracker:
         total_income = sum(t['amount'] for t in self.transactions if t['type'] == 'income')
         total_expenses = sum(t['amount'] for t in self.transactions if t['type'] == 'expense')
         balance = total_income - total_expenses
-        self.label_income.config(text=f"Total Income: {total_income:.2f}")
-        self.label_expenses.config(text=f"Total Expenses: {total_expenses:.2f}")
-        self.label_balance.config(text=f"Balance: {balance:.2f}")
+        self.label_income.config(text=f"Total Income: Php {total_income:.2f}")
+        self.label_expenses.config(text=f"Total Expenses: Php {total_expenses:.2f}")
+        self.label_balance.config(text=f"Balance: Php {balance:.2f}")
         
         for tab in self.notebook.tabs():
             self.notebook.forget(tab)
@@ -159,18 +189,18 @@ class ExpenseTracker:
             frame = ttk.Frame(self.notebook)
             self.notebook.add(frame, text=date)
             
-            listbox = tk.Listbox(frame, height=10, width=70)
+            listbox = tk.Listbox(frame, height=10, width=70, font=('Segoe UI', 9), bg='#f9f9f9', selectbackground='#4CAF50')
             listbox.pack(fill=tk.BOTH, expand=True)
             listbox.bind("<Double-1>", lambda event, lb=listbox, d=date: self.on_double_click(event, lb, d))  # Bind double-click
             
             date_transactions = [t for t in self.transactions if t['date'] == date]
             for t in date_transactions:
-                listbox.insert(tk.END, f"{t['type'].capitalize()}: {t['amount']:.2f} - {t['description']}")
+                listbox.insert(tk.END, f"{t['type'].capitalize()}: Php {t['amount']:.2f} - {t['description']}")
         
         if balance < self.low_balance_threshold:
             messagebox.showwarning(
                 "Low Balance Alert",
-                f"Warning: Your balance is below ${self.low_balance_threshold:.2f}.\nCurrent balance: {balance:.2f}\nPlease add income or reduce expenses."
+                f"Warning: Your balance is below Php {self.low_balance_threshold:.2f}.\nCurrent balance: Php {balance:.2f}\nPlease add income or reduce expenses."
             )
     
     def on_double_click(self, event, listbox, date):
@@ -187,25 +217,26 @@ class ExpenseTracker:
     def edit_transaction(self, transaction):
         edit_window = tk.Toplevel(self.root)
         edit_window.title("Edit Transaction")
-        edit_window.geometry("400x380")
+        edit_window.geometry("450x400")
+        edit_window.configure(bg='#f0f0f0')
         
-        ttk.Label(edit_window, text="Type:").pack(pady=5)
+        ttk.Label(edit_window, text="Type:", font=("Segoe UI", 11, "bold")).pack(pady=5)
         type_var = tk.StringVar(value=transaction['type'])
-        ttk.Radiobutton(edit_window, text="Income", variable=type_var, value="income").pack(anchor=tk.W)
-        ttk.Radiobutton(edit_window, text="Expense", variable=type_var, value="expense").pack(anchor=tk.W)
+        ttk.Radiobutton(edit_window, text="💼 Income", variable=type_var, value="income").pack(anchor=tk.W)
+        ttk.Radiobutton(edit_window, text="🛒 Expense", variable=type_var, value="expense").pack(anchor=tk.W)
         
-        ttk.Label(edit_window, text="Date (YYYY-MM-DD):").pack(pady=5)
-        date_entry = ttk.Entry(edit_window, width=30)
+        ttk.Label(edit_window, text="Date (YYYY-MM-DD):", font=("Segoe UI", 11, "bold")).pack(pady=5)
+        date_entry = ttk.Entry(edit_window, width=35)
         date_entry.insert(0, transaction['date'])
         date_entry.pack(pady=5)
         
-        ttk.Label(edit_window, text="Amount:").pack(pady=5)
-        amount_entry = ttk.Entry(edit_window, width=30)
+        ttk.Label(edit_window, text="Amount (Php):", font=("Segoe UI", 11, "bold")).pack(pady=5)
+        amount_entry = ttk.Entry(edit_window, width=35)
         amount_entry.insert(0, str(transaction['amount']))
         amount_entry.pack(pady=5)
         
-        ttk.Label(edit_window, text="Item:").pack(pady=5)
-        desc_entry = ttk.Entry(edit_window, width=30)
+        ttk.Label(edit_window, text="Item/Description:", font=("Segoe UI", 11, "bold")).pack(pady=5)
+        desc_entry = ttk.Entry(edit_window, width=35)
         desc_entry.insert(0, transaction['description'])
         desc_entry.pack(pady=5)
         
@@ -250,9 +281,11 @@ class ExpenseTracker:
                 edit_window.destroy()
                 messagebox.showinfo("Success", "Transaction deleted!")
         
-        ttk.Button(edit_window, text="Save", command=save_edited_transaction, width=15).pack(pady=5)
-        ttk.Button(edit_window, text="Delete", command=delete_single_transaction, width=15).pack(pady=5)
-        ttk.Button(edit_window, text="Cancel", command=edit_window.destroy, width=15).pack(pady=5)
+        button_frame = ttk.Frame(edit_window, style='TFrame')
+        button_frame.pack(pady=15)
+        ttk.Button(button_frame, text="💾 Save", command=save_edited_transaction, width=12).pack(side=tk.LEFT, padx=5)
+        ttk.Button(button_frame, text="🗑️ Delete", command=delete_single_transaction, width=12, style='Danger.TButton').pack(side=tk.LEFT, padx=5)
+        ttk.Button(button_frame, text="❌ Cancel", command=edit_window.destroy, width=12).pack(side=tk.LEFT, padx=5)
     
     def delete_all_transactions(self):
         if not self.transactions:
@@ -284,3 +317,5 @@ if __name__ == "__main__":
     root = tk.Tk()
     app = ExpenseTracker(root)
     root.mainloop()
+
+    # Yow to someone who's here i've been developing this since August 2025.
